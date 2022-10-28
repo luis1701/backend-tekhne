@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser');
-
+const subjectsRoutes = require('./routes/subjects')
 const app = express()
 
 app.use(bodyParser.json());
@@ -21,16 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/subjects', function (req, res) {
-  res.send(subjectsList)
-})
-
-app.post('/subjects', function (req, res) {
-  const { body } = req;
-  const { subject } = body
-  subjectsList.push(subject)
-  res.send(subjectsList)
-})
+app.use(subjectsRoutes)
 
 app.listen(4000)
 
