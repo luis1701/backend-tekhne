@@ -1,9 +1,9 @@
 const { createSubjectService, getSubjectService, getSubjectByIdService } = require('../services/subjects')
 
-exports.createSubjectController = (req, res) => {
+exports.createSubjectController = async (req, res) => {
   try {
     const { body } = req;
-    const createSubjectRes = createSubjectService(body)
+    const createSubjectRes = await createSubjectService(body)
     return res.status(200).json(createSubjectRes);
   } catch (error) {
     console.log(error)
@@ -11,9 +11,9 @@ exports.createSubjectController = (req, res) => {
   }
 }
 
-exports.getSubjectController = (req, res) => {
+exports.getSubjectController = async (req, res) => {
   try {
-    const getSubjectsRes = getSubjectService()
+    const getSubjectsRes = await getSubjectService()
     return res.status(200).json(getSubjectsRes);
   } catch (error) {
     console.log(error)

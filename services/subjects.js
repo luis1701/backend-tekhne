@@ -1,17 +1,17 @@
 const { createSubjectDataAccess, getSubjectsDataAccess, getSubjectsByIdDataAccess } = require('../data-access/subjects')
 
-exports.createSubjectService = (data) => {
+exports.createSubjectService = async (data) => {
     const { subject } = data;
-    const subjects = getSubjectsDataAccess()
+    const subjects = await getSubjectsDataAccess()
     if (subjects.includes(subject)) {
         return {
             insert: false,
             message: 'Materia ya insertada anteriormente'
         }
     }
-    createSubjectDataAccess(subject)
-    const subjectsLastVersion = getSubjectsDataAccess()
-    if (subjectsLastVersion.includes(subject)) {
+    await createSubjectDataAccess(subject)
+    const subjectsLastVersion = await getSubjectsDataAccess()
+    if (subjectsLastVersion.map(({ name }) => name).includes(subject)) {
         return {
             insert: true,
             message: "Insertado correctamente"
@@ -23,9 +23,9 @@ exports.createSubjectService = (data) => {
     };
 }
 
-exports.getSubjectService = () => {
-    const subjects = getSubjectsDataAccess();
-    return subjects;
+exports.getSubjectService = async () => {
+    const subjects = await getSubjectsDataAccess();
+    return subjects.map(({ name }) => name);
 }
 
 exports.getSubjectByIdService = (id) => {
